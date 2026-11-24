@@ -385,4 +385,5 @@ G1 Garbage Collector стал сборщиком мусора по умолча�
 
 - Компактные строки: внутреннее представление String изменено с char[] (2 байта на символ) на byte[] с флагом кодировки (1 байт для Latin-1), что существенно снизило потребление памяти. [JEP 254: Compact Strings](https://openjdk.org/jeps/254).
 - Удаление устаревших модулей (Java 11): из состава JDK полностью удалены модули Java EE и CORBA (например, javax.xml.bind / JAXB) — теперь их нужно подключать как внешние зависимости (через Maven или Gradle). [JEP 320: Remove the Java EE and CORBA Modules](https://openjdk.org/jeps/320).
-- [Полный список изменений](https://www.oracle.com/java/technologies/javase/11-relnote-issues.html).
+
+[Полный список изменений](https://www.oracle.com/java/technologies/javase/11-relnote-issues.html)
