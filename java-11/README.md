@@ -348,9 +348,12 @@ module com.example.payment {
 - [JEP 261: Module System](https://openjdk.org/jeps/261)
 - [JEP 200: The Modular JDK](https://openjdk.org/jeps/200)
 
-## 12. Другие важные изменения «под капотом»
+## 12. Garbage Collector
 
-- G1 Garbage Collector (Java 9): стал сборщиком мусора по умолчанию вместо Parallel GC: [JEP 248: Make G1 the Default Garbage Collector](https://openjdk.org/jeps/248).
-- Компактные строки (Java 9): внутреннее представление String изменено с char[] (2 байта на символ) на byte[] с флагом кодировки (1 байт для Latin-1), что существенно снизило потребление памяти. [JEP 254: Compact Strings](https://openjdk.org/jeps/254).
+G1 Garbage Collector стал сборщиком мусора по умолчанию вместо Parallel GC: [JEP 248: Make G1 the Default Garbage Collector](https://openjdk.org/jeps/248).
+
+## 13. Другие изменения
+
+- Компактные строки: внутреннее представление String изменено с char[] (2 байта на символ) на byte[] с флагом кодировки (1 байт для Latin-1), что существенно снизило потребление памяти. [JEP 254: Compact Strings](https://openjdk.org/jeps/254).
 - Удаление устаревших модулей (Java 11): из состава JDK полностью удалены модули Java EE и CORBA (например, javax.xml.bind / JAXB) — теперь их нужно подключать как внешние зависимости (через Maven или Gradle). [JEP 320: Remove the Java EE and CORBA Modules](https://openjdk.org/jeps/320).
-- [JDK 11 Release Notes](https://www.oracle.com/java/technologies/javase/11-relnote-issues.html).
+- [Полный список изменений](https://www.oracle.com/java/technologies/javase/11-relnote-issues.html).
