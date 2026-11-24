@@ -2,6 +2,23 @@
 
 Релиз состоялся в сентябре 2018 года. Поддержка до января 2032.
 
+## Содержание
+
+- [1. Локальный вывод типов — ключевое слово var](#1-local-variable-type-inference)
+- [2. Фабричные методы для создания коллекций](#2-collection-factory-methods)
+- [3. Новый стандартный HTTP-клиент](#3-http-client)
+- [4. Новые методы для работы со строками (String)](#4-string-methods)
+- [5. Упрощенное чтение и запись файлов](#5-read-write-files)
+- [6. Улучшенный try-with-resources](#6-try-with-resources)
+- [7. Приватные методы в интерфейсах](#7-private-interface-methods)
+- [8. Улучшения в Stream API и Optional](#8-stream-api)
+- [9. Reactive Streams (Flow API)](#9-reactive-streams)
+- [10. Адаптация JVM к Docker-контейнерам (Container Awareness)](#10-container-awareness)
+- [11. Система модулей — Project Jigsaw](#11-project-jigsaw)
+- [12. Garbage Collector](#12-garbage-collector)
+- [13. Другие изменения](#13-other-changes)
+
+<a id="1-local-variable-type-inference"></a>
 ## 1. Локальный вывод типов — ключевое слово var
 
 Позволяет не дублировать тип локальной переменной, если компилятор может вывести его из правой части выражения. Также добавили поддержку var для параметров лямбда-выражений (полезно для добавления аннотаций).
@@ -23,6 +40,7 @@ BiFunction<Integer, Integer, Integer> sum = (@NonNull var a, var b) -> a + b;
 - [JEP 286: Local-Variable Type Inference (Java 10)](https://openjdk.org/jeps/286)
 - [JEP 323: Local-Variable Syntax for Lambda Parameters (Java 11)](https://openjdk.org/jeps/323)
 
+<a id="2-collection-factory-methods"></a>
 ## 2. Фабричные методы для создания коллекций
 
 Появились методы List.of(), Set.of() и Map.of(), которые создают неизменяемые (immutable) коллекции в одну строку.
@@ -45,6 +63,7 @@ List<String> immutableCopy = List.copyOf(source);
 Официальная документация:
 - [JEP 269: Convenience Factory Methods for Collections](https://openjdk.org/jeps/269)
 
+<a id="3-http-client"></a>
 ## 3. Новый стандартный HTTP-клиент
 
 Устаревший HttpURLConnection заменили на современный java.net.http.HttpClient с поддержкой HTTP/2, WebSocket, синхронных и асинхронных запросов.
@@ -71,13 +90,14 @@ client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
 Официальная документация:
 - [JEP 321: HTTP Client (Standard)](https://openjdk.org/jeps/321)
 
+<a id="4-string-methods"></a>
 ## 4. Новые методы для работы со строками (String)
 
 Добавлены полезные методы, избавляющие от необходимости подключать сторонние библиотеки вроде Apache Commons.
-• isBlank() — проверяет, пуста ли строка или состоит только из пробелов.
-• lines() — разбивает строку на Stream<String> по переносам строк.
-• strip() — удаляет пробелы в начале и конце (корректно работает с Unicode, в отличие от trim()).
-• repeat(int) — повторяет строку заданное количество раз.
+- isBlank() — проверяет, пуста ли строка или состоит только из пробелов.
+- lines() — разбивает строку на Stream<String> по переносам строк.
+- strip() — удаляет пробелы в начале и конце (корректно работает с Unicode, в отличие от trim()).
+- repeat(int) — повторяет строку заданное количество раз.
 
 ```java
 String text = "  \n  Hello\nWorld  \t ";
@@ -93,6 +113,7 @@ System.out.println(text.strip()); // "Hello\nWorld"
 
 [src](src/main/java/new_string_methods/Main.java)
 
+<a id="5-read-write-files"></a>
 ## 5. Упрощенное чтение и запись файлов
 
 В класс java.nio.file.Files добавили методы readString() и writeString() для работы с текстовыми файлами в одну строчку.
@@ -113,6 +134,7 @@ System.out.println(list);
 
 [src](src/main/java/read_write_string/Main.java)
 
+<a id="6-try-with-resources"></a>
 ## 6. Улучшенный try-with-resources
 
 В конструкцию try-with-resources больше не нужно объявлять новую локальную переменную, если ресурс уже объявлен как final или effectively final (не изменяется после инициализации).
@@ -130,6 +152,7 @@ try (reader) {
 Официальная документация:
 - [Milling Project Coin (JEP 213)](https://openjdk.org/jeps/213)
 
+<a id="7-private-interface-methods"></a>
 ## 7. Приватные методы в интерфейсах
 
 После появления default-методов в Java 8 возникла проблема дублирования кода внутри интерфейсов. Теперь разрешено создавать private методы для переиспользования логики.
@@ -155,6 +178,7 @@ public interface Logger {
 Официальная документация:
 - [Private Interface Methods](https://docs.oracle.com/javase/tutorial/java/IandI/defaultmethods.html)
 
+<a id="8-stream-api"></a>
 ## 8. Улучшения в Stream API и Optional
 
 - Stream API: появились takeWhile(), dropWhile() и ofNullable().
@@ -181,6 +205,7 @@ System.out.println(nonBlank);
 
 [src](src/main/java/stream_api_improvements/Main.java)
 
+<a id="9-reactive-streams"></a>
 ## 9. Reactive Streams (Flow API)
 
 В пакет java.util.concurrent добавлен класс Flow с вложенными интерфейсами (Publisher, Subscriber, Subscription, Processor), реализующими стандарт реактивных потоков с поддержкой обратного давления (backpressure)
@@ -263,6 +288,7 @@ Thread.sleep(500);
 Официальная документация:
 - [JEP 266: More Concurrency Updates](https://openjdk.org/jeps/266)
 
+<a id="10-container-awareness"></a>
 ## 10. Адаптация JVM к Docker-контейнерам (Container Awareness)
 
 На Linux-платформах JVM научилась корректно определять ограничения по памяти и количеству ядер CPU, заданные для Docker-контейнера через cgroups, вместо того чтобы ориентироваться на ресурсы хост-машины. Появились флаги для процентного управления памятью кучи относительно лимита контейнера.
@@ -275,6 +301,7 @@ java -XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=75.0 -jar app.jar
 Официальная документация:
 - [Consolidated JDK 10 Release Notes (HotSpot)](https://www.oracle.com/java/technologies/javase/10all-relnotes.html)
 
+<a id="11-project-jigsaw"></a>
 ## 11. Система модулей — Project Jigsaw
 
 Сам JDK был разбит на модули (вместо монолитного rt.jar), а разработчики получили возможность создавать свои модули через файл module-info.java для строгого контроля зависимостей и инкапсуляции пакетов.
@@ -348,10 +375,12 @@ module com.example.payment {
 - [JEP 261: Module System](https://openjdk.org/jeps/261)
 - [JEP 200: The Modular JDK](https://openjdk.org/jeps/200)
 
+<a id="12-garbage-collector"></a>
 ## 12. Garbage Collector
 
 G1 Garbage Collector стал сборщиком мусора по умолчанию вместо Parallel GC: [JEP 248: Make G1 the Default Garbage Collector](https://openjdk.org/jeps/248).
 
+<a id="13-other-changes"></a>
 ## 13. Другие изменения
 
 - Компактные строки: внутреннее представление String изменено с char[] (2 байта на символ) на byte[] с флагом кодировки (1 байт для Latin-1), что существенно снизило потребление памяти. [JEP 254: Compact Strings](https://openjdk.org/jeps/254).

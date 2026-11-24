@@ -2,7 +2,23 @@
 
 Релиз состоялся в сентябре 2021 года. Поддержка до января 2029.
 
-## 1.Records
+## Содержание
+
+- [1. Records](#1-records)
+- [2. Sealed Classes](#2-sealed-classes)
+- [3. Switch Expressions](#3-switch-expressions)
+- [4. Text Blocks](#4-text-blocks)
+- [5. Pattern Matching для instanceof](#5-pattern-matching)
+- [6. Метод Stream.toList()](#6-stream-tolist)
+- [7. Коллектор Collectors.teeing()](#7-collectors-teeing)
+- [8. Новые методы в String](#8-string-methods)
+- [9. Новый API генераторов псевдослучайных чисел](#9-random-generators)
+- [10. Helpful NullPointerExceptions](#10-helpful-npe)
+- [11. Garbage Collector](#11-garbage-collector)
+- [12. Другие изменения](#12-other-changes)
+
+<a id="1-records"></a>
+## 1. Records
 
 Компактный синтаксис для создания неизменяемых (immutable) классов-носителей данных. При компиляции record превращается в обычный final-класс, унаследованный от java.lang.Record, а также автоматически генерируются private final поля, конструктор, геттеры (без префикса get), а также методы equals(), hashCode() и toString().
 
@@ -81,6 +97,7 @@ List<OrderSummary> summaries = orders.stream()
 Официальная документация:
 - [JEP 395: Records](https://openjdk.org/jeps/395)
 
+<a id="2-sealed-classes"></a>
 ## 2. Sealed Classes
 
 Позволяют строго ограничить список классов, которые могут наследоваться от базового класса или реализовывать интерфейс, с помощью ключевых слов sealed и permits. Наследники обязаны иметь один из модификаторов:
@@ -124,6 +141,7 @@ List<OrderSummary> summaries = orders.stream()
 Официальная документация:
 - [JEP 409: Sealed Classes](https://openjdk.org/jeps/409)
 
+<a id="3-switch-expressions"></a>
 ## 3. Switch Expressions
 
 Оператор switch теперь можно использовать как выражение, возвращающее результат. Новый синтаксис со стрелками -> исключает случайное «проваливание» (fall-through) в следующую ветку и избавляет от необходимости писать break. Для возврата значения из блока кода используется ключевое слово `yield`.
@@ -144,6 +162,7 @@ String dayType = switch (day) {
 Официальная документация:
 - [JEP 361: Switch Expressions](https://openjdk.org/jeps/361)
 
+<a id="4-text-blocks"></a>
 ## 4. Text Blocks
 
 Многострочные строковые литералы, обрамленные тройными кавычками """. Они автоматически форматируют отступы и избавляют от необходимости экранировать кавычки и переносы строк в JSON, SQL или HTML.
@@ -162,6 +181,7 @@ String json = """
 Официальная документация:
 - [JEP 378: Text Blocks](https://openjdk.org/jeps/378)
 
+<a id="5-pattern-matching"></a>
 ## 5. Pattern Matching для instanceof
 
 Позволяет проверять тип объекта и сразу объявлять переменную нужного типа без явного приведения (cast).
@@ -183,6 +203,7 @@ if (obj instanceof String s && !s.isEmpty()) {
 Официальная документация:
 - [JEP 394: Pattern Matching for instanceof](https://openjdk.org/jeps/394)
 
+<a id="6-stream-tolist"></a>
 ## 6. Метод Stream.toList()
 
 Позволяет преобразовать стрим в неизменяемый список напрямую без вызова .collect(Collectors.toList()):
@@ -193,6 +214,7 @@ List<String> names = Stream.of("Alice", "Bob")
         .toList();
 ```
 
+<a id="7-collectors-teeing"></a>
 ## 7. Коллектор Collectors.teeing()
 
 Объединяет результаты работы двух независимых коллекторов над одним стримом с помощью функции слияния:
@@ -206,6 +228,7 @@ double average = Stream.of(10, 20, 30)
         ));
 ```
 
+<a id="8-string-methods"></a>
 ## 8. Новые методы в String
 
 Добавлены методы indent(int n) для управления отступами, transform(Function) для цепочечных преобразований строк, а также formatted(Object... args) для удобного форматирования текстовых блоков.
@@ -260,6 +283,7 @@ System.out.println(json);
 
 [src](src/main/java/string_new_methods/Main.java)
 
+<a id="9-random-generators"></a>
 ## 9. Новый API генераторов псевдослучайных чисел
 Появился единый интерфейс RandomGenerator и фабрика RandomGeneratorFactory, предоставляющие доступ к современным алгоритмам (например, LXM) без необходимости переписывать код при смене генератора.
 
@@ -271,6 +295,7 @@ int randomInt = generator.nextInt(100);
 Официальная документация:
 - [JEP 356: Enhanced Pseudo-Random Number Generators](https://openjdk.org/jeps/356)
 
+<a id="10-helpful-npe"></a>
 ## 10. Helpful NullPointerExceptions
 
 Сообщения об исключении NullPointerException теперь точно указывают, какая именно переменная или результат вызова метода в цепочке оказались равны null.
@@ -290,11 +315,13 @@ user.address.city.toLowerCase();
 Официальная документация:
 - [JEP 358: Helpful NullPointerExceptions](https://openjdk.org/jeps/358)
 
+<a id="11-garbage-collector"></a>
 ## 11. Garbage Collector
 G1 остается сборщиком по умолчанию в Java 17 и научился возвращать неиспользуемую память операционной системе во время простоя ([JEP 346](https://openjdk.org/jeps/346)).
 
 Сборщики с низкими задержками ZGC (JEP 377) и Shenandoah (JEP 379) переведены в статус production-ready (в Java 11 ZGC был экспериментальным).
 
+<a id="12-other-changes"></a>
 ## Другие изменения
 
 - Строгая инкапсуляция внутренних API JDK. Доступ к внутренним пакетам (таким как sun.misc.*) по умолчанию полностью заблокирован. Флаг --illegal-access, который позволял обходить это ограничение в Java 11–16, больше не работает — для доступа к конкретным внутренним пакетам старых библиотек требуются явные флаги --add-opens или --add-exports. Подробнее в [JEP 403](https://openjdk.org/jeps/403).
