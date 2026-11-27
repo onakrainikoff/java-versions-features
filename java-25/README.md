@@ -183,18 +183,18 @@ static void main() throws InterruptedException {
 
 `Generational ZGC`: включается флагом `-XX:+UseZGC` (флаг `-XX:+ZGenerational` больше не нужен и считается устаревшим). Подходит для систем с минимальными требованиями к задержкам (sub-millisecond pause times).
 
-`Generational Shenandoah`: включается флагами `-XX:+UseShenandoahGC` `-XX:ShenandoahGCMode=generational` (в JDK 25 стабилизирован как продакшен-функция через JEP 521).
+`Generational Shenandoah`: включается флагами `-XX:+UseShenandoahGC` `-XX:ShenandoahGCMode=generational` (в `JDK 25` стабилизирован как продакшен-функция через JEP 521).
 
 <a id="8-other"></a>
 ## 8. Другие изменения
 
 - **Компактные заголовки объектов** — [JEP 519](https://openjdk.org/jeps/519): уменьшает размер заголовка каждого объекта в 64-битной JVM с 96–128 бит до 64 бит. Включается флагом `-XX:+UseCompactObjectHeaders` и снижает потребление памяти в куче на 10–20% для микросервисов.
-- **AOT-кэширование классов и профилей методов (`Project Leyden`)** — [JEP 483](https://openjdk.org/jeps/483), [JEP 514](https://openjdk.org/jeps/514), [JEP 515](https://openjdk.org/jeps/515): позволяет сохранить загруженные классы и профили JIT-компиляции в AOT-кэш при тестовом прогоне (`-XX:AOTCacheOutput=app.aot`), чтобы последующие запуски приложения стартовали и выходили на пиковую производительность в разы быстрее.
-- **Улучшения `Java Flight Recorder (JFR)`** — [JEP 509](https://openjdk.org/jeps/509), [JEP 518](https://openjdk.org/jeps/518), [JEP 520](https://openjdk.org/jeps/520): добавлено профилирование процессорного времени (CPU-Time Profiling на Linux), кооперативная выборка стеков без необходимости дожидаться safepoint и встроенная трассировка времени выполнения конкретных методов.
+- **AOT-кэширование классов и профилей методов (`Project Leyden`)** — [JEP 483](https://openjdk.org/jeps/483), [JEP 514](https://openjdk.org/jeps/514), [JEP 515](https://openjdk.org/jeps/515): позволяет сохранить загруженные классы и профили `JIT`-компиляции в `AOT`-кэш при тестовом прогоне (`-XX:AOTCacheOutput=app.aot`), чтобы последующие запуски приложения стартовали и выходили на пиковую производительность в разы быстрее.
+- **Улучшения `Java Flight Recorder (JFR)`** — [JEP 509](https://openjdk.org/jeps/509), [JEP 518](https://openjdk.org/jeps/518), [JEP 520](https://openjdk.org/jeps/520): добавлено профилирование процессорного времени (`CPU-Time Profiling` на `Linux`), кооперативная выборка стеков без необходимости дожидаться `safepoint` и встроенная трассировка времени выполнения конкретных методов.
 - **Ограничение доступа к `sun.misc.Unsafe`** — [JEP 471](https://openjdk.org/jeps/471), [JEP 498](https://openjdk.org/jeps/498): методы доступа к памяти в Unsafe объявлены устаревшими на удаление и при вызове выводят предупреждения в консоль (готовится полный запрет в пользу `FFM API` и `VarHandle`).
-- **Предупреждения при использовании `JNI`** — [JEP 472](https://openjdk.org/jeps/472): загрузка нативных библиотек через `JNI` теперь требует явного разрешения флагом `--enable-native-access=ALL-UNNAMED` (или именем модуля), иначе JVM выдает предупреждение.
+- **Предупреждения при использовании `JNI`** — [JEP 472](https://openjdk.org/jeps/472): загрузка нативных библиотек через `JNI` теперь требует явного разрешения флагом `--enable-native-access=ALL-UNNAMED` (или именем модуля), иначе `JVM` выдает предупреждение.
 - **Окончательное отключение `Security Manager`** — [JEP 486](https://openjdk.org/jeps/486): попытка включить `Security Manager` через `-Djava.security.manager` теперь приводит к ошибке запуска.
-- **Удаление устаревших методов `Thread`**: методы `Thread.suspend()`, `Thread.resume()` и `ThreadGroup.stop()` полностью удалены из JDK и выбрасывают NoSuchMethodError.
+- **Удаление устаревших методов `Thread`**: методы `Thread.suspend()`, `Thread.resume()` и `ThreadGroup.stop()` полностью удалены из `JDK` и выбрасывают `NoSuchMethodError`.
 - **Отключение процессоров аннотаций по умолчанию (с JDK 23)**: компилятор `javac` больше не запускает `Annotation Processors` автоматически, если не указан флаг `-proc:full` или путь через `-processorpath`.
 
 
